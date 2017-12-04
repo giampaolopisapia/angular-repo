@@ -103,7 +103,7 @@ export class DishdetailComponent implements OnInit {
          rating: form.get('rating').value,
          author: form.get('author').value,
          comment: form.get('comment').value,
-         date: Date.now()
+         date: new Date().toISOString()
        }
       );
 

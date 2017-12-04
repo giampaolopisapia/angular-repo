@@ -47,9 +47,22 @@
       </md-list-item>
     </md-list>
 
-    <div fxFlex class="form-size">
+    <div class="form-size" >
       <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
 
+        <div [hidden]="commentForm.invalid">
+          <md-list>
+            <md-list-item>
+              <h1 md-line> {{commentForm.value.comment}} </h1>
+              <p md-line>
+                <span> {{commentForm.value.rating}} Stars</span>
+              </p>
+              <p md-line>
+                <span> -- {{commentForm.value.author}} </span>
+              </p>
+            </md-list-item>
+          </md-list>
+        </div>
        <p>
          <md-input-container
           dividerColor="{{(formErrors.author) ? 'warn' : 'primary'}}">
@@ -58,25 +71,22 @@
              <span [hidden]="!(formErrors.author)">
                {{formErrors.author}}</span>
            </md-hint>
-
          </md-input-container>
-
        </p>
+         <md-slider md-discrete formControlName="rating" thumbLabel tickInterval="1" min="1" max="5"></md-slider>
        <p>
-         <md-input-container>
-           <mat-slider></mat-slider>
-
-         </md-input-container>
-
-       </p>
-       <p>
-         <md-input-container class="full-width">
-           <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=10></textarea>
-         </md-input-container>
+         <md-input-container class="full-width"   dividerColor="{{(formErrors.comment) ? 'warn' : 'primary'}}">
+           <textarea mdInput formControlName="comment" placeholder="Your Comment" rows=10 required></textarea>
+           <md-hint>
+             <span [hidden]="!(formErrors.comment)">
+               {{formErrors.comment}}</span>
+           </md-hint>
+          </md-input-container>
        </p>
        <button type="submit" md-button class="background-primary text-floral-white" [disabled]="commentForm.invalid">Submit</button>
      </form>
     </div>
+
   </div>
   <div [hidden]="dish">
     <md-spinner></md-spinner><h4>Loading . . . Please Wait</h4>

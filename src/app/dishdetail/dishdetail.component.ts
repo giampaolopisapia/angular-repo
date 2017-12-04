@@ -4,8 +4,10 @@ import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Dish } from '../shared/dish';
+import { Comment } from '../shared/comment';
 import { DishService } from '../services/dish.service';
 
+import 'hammerjs';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -20,18 +22,21 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
   commentForm: FormGroup;
-  comment: Comment;
+  commentPreview: Comment;
 
   formErrors = {
-    'comment': '',
+    'author': '',
+    'comment': ''
   };
 
   validationMessages = {
     'author': {
-      'required':      'First Name is required.',
-      'minlength':     'First Name must be at least 2 characters long.',
-      'maxlength':     'FirstName cannot be more than 25 characters long.'
+      'required':      'Name is required.',
+      'minlength':     'Name must be at least 2 characters long.'
     },
+    'comment': {
+      'required':      'Comment is required.'
+    }
   };
 
    constructor(private dishservice: DishService,
@@ -61,9 +66,9 @@ export class DishdetailComponent implements OnInit {
    createForm() {
 
      this.commentForm = this.fb.group({
-       author: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
+       author: ['', [Validators.required, Validators.minLength(2)] ],
        rating: '5',
-       comment: ''
+       comment: ['', Validators.required ]
      });
      this.commentForm.valueChanges.subscribe(data => this.onValueChanged(data));
 
@@ -84,6 +89,7 @@ export class DishdetailComponent implements OnInit {
            }
          }
        }
+
      }
 
    onSubmit() {
@@ -91,7 +97,15 @@ export class DishdetailComponent implements OnInit {
      //this.comment = this.commentForm.value;
      //console.log(this.comment);
      //push comment in dish comments array
-
+     const form = this.commentForm;
+     this.dish.comments.push(
+       {
+         rating: form.get('rating').value,
+         author: form.get('author').value,
+         comment: form.get('comment').value,
+         date: Date.now()
+       }
+      );
 
      this.commentForm.reset({
        author: '',

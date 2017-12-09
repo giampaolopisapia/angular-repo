@@ -11,6 +11,8 @@ import { HttpModule } from '@angular/http';
 
 import 'hammerjs';
 
+import { baseURL } from './shared/baseurl';
+
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
@@ -20,13 +22,12 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 
+import {ProcessHttpmsgService } from './services/process-httpmsg.service';
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 
-import { baseURL } from './shared/baseurl';
-import {ProcessHttpMsgService } from './services/process-httpmsg.service'
 
 @NgModule({
   declarations: [
@@ -53,8 +54,9 @@ import {ProcessHttpMsgService } from './services/process-httpmsg.service'
   providers: [DishService,
     PromotionService,
     LeaderService,
-  { provide: 'BaseURL', useValue: baseURL },
-    ProcessHttpMsgService],
+    ProcessHttpmsgService,
+    {provide: 'BaseURL', useValue: baseURL}
+    ],
   entryComponents: [
       LoginComponent
     ],

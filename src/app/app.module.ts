@@ -28,6 +28,7 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
+import { FeedbackService } from './services/feedback.service';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { LoginComponent } from './login/login.component';
   providers: [DishService,
     PromotionService,
     LeaderService,
+    FeedbackService,
     ProcessHttpmsgService,
     {provide: 'BaseURL', useValue: baseURL}
     ],

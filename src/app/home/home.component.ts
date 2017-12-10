@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
     private promotionservice: PromotionService,
     private leaderservice: LeaderService,
     @Inject('BaseURL') private BaseURL) {
-      console.log(BaseURL);
   }
 
   ngOnInit() {

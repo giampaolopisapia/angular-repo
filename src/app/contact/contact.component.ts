@@ -13,8 +13,10 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
-  feedbackToSubmit: Feedback;
+  feedbackSubmit: Feedback;
+  feedbackSubmitting: Feedback;
   contactType = ContactType;
+  errMess: string;
 
   formErrors = {
     'firstname': '',
@@ -86,10 +88,11 @@ export class ContactComponent implements OnInit {
     }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
-    this.feedbackToSubmit = this.feedback;
-    this.feedbackservice.submitFeedback(this.feedbackToSubmit);
+    this.feedbackSubmitting = this.feedbackForm.value;
+    console.log(this.feedbackSubmitting);
+    this.feedbackservice.submitFeedback(this.feedbackSubmitting).subscribe(feedback => this.feedbackSubmit = feedback;
+      this.feedbackSubmitting = null,
+      errmess => this.errMess = errmess);
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',

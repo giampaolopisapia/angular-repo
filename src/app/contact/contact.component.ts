@@ -90,8 +90,7 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.feedbackSubmitting = this.feedbackForm.value;
     console.log(this.feedbackSubmitting);
-    this.feedbackservice.submitFeedback(this.feedbackSubmitting).subscribe(feedback => this.feedbackSubmit = feedback;
-      this.feedbackSubmitting = null,
+    this.feedbackservice.submitFeedback(this.feedbackSubmitting).subscribe(feedback => this.feedbackSubmit = feedback,
       errmess => this.errMess = errmess);
     this.feedbackForm.reset({
       firstname: '',

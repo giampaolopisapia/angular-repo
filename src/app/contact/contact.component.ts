@@ -4,7 +4,7 @@ import { Feedback, ContactType } from '../shared/feedback';
 
 import { FeedbackService } from '../services/feedback.service';
 
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, expand } from '../animations/app.animation';
 
 
 @Component({
@@ -16,17 +16,19 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
     },
   animations: [
-    flyInOut()
+    flyInOut(),
+    expand()
     ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
-  feedbackSubmit: Feedback;
-  feedbackSubmitting: Feedback;
   contactType = ContactType;
-  errMess: string;
+  feedbackErrMess: string;
+  formShow = true;
+  showFeedbackDetails = true;
+  feedbackResponse: Feedback;
 
   formErrors = {
     'firstname': '',
@@ -98,18 +100,28 @@ export class ContactComponent implements OnInit {
     }
 
   onSubmit() {
-    this.feedbackSubmitting = this.feedbackForm.value;
-    console.log(this.feedbackSubmitting);
-    this.feedbackservice.submitFeedback(this.feedbackSubmitting).subscribe(feedback => this.feedbackSubmit = feedback,
-      errmess => this.errMess = errmess);
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: '',
-      email: '',
-      agree: false,
-      contacttype: 'None',
-      message: ''
-    });
+    this.feedback = this.feedbackForm.value;
+    console.log(this.feedback);
+
+    this.formShow = false;
+
+    this.feedbackservice.submitFeedback(this.feedback).subscribe(feedback =>
+       {
+         this.feedbackResponse = feedback;
+         setTimeout(() => {
+           this.feedbackResponse = null;
+           this.formShow = true;
+           this.feedbackForm.reset({
+             firstname: '',
+             lastname: '',
+             telnum: '',
+             email: '',
+             agree: false,
+             contacttype: 'None',
+             message: ''
+           });
+         }, 5000);
+       },
+       errmess => this.feedbackErrMess = errmess);
   }
 }
